@@ -46,7 +46,7 @@ class DataLoad:
             df = pd.DataFrame(result.fetchall(), columns=result.keys())
 
              
-        print("Number of rows in Salses table:\n", df.to_string())
+        print("Number of rows in Sales table:\n", df.to_string())
         
 if __name__ == '__main__':
     dl = DataLoad()
