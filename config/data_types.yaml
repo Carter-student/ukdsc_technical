@@ -1,0 +1,12 @@
+customers:
+  customer_id: !!str int
+  customer_name: !!str str
+  age: !!str int 
+  region: !!str str
+sales:
+  sale_id: !!str int
+  customer_id: !!str int 
+  sale_date: !!str datetime64[ns] 
+  product_category: !!str str
+  sale_amount: !!str float
+

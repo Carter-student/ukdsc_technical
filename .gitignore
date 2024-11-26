@@ -1,2 +1,4 @@
 .virtualenv
 */config.yaml
+.vscode
+outputs
