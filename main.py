@@ -107,7 +107,7 @@ class TransformSave:
         print(max_row)
         
         transactions_by_date = sales_df.sort_values('sale_date', ascending=False)
-        transactions_by_date.to_csv(self.output_dir.joinpath('transactions_by_date.csv'))
+        transactions_by_date.to_csv(self.output_dir.joinpath('transactions_by_date.csv'), index=False)
         print(transactions_by_date)
 
 if __name__ == '__main__':
