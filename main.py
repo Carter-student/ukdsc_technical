@@ -156,7 +156,7 @@ class TransformSave:
     
     def perform_part3_tasks(self, customers_df, sales_df, subfolder='part3'):
         self.save_task(customers_df, 'cleaned_customers', subfolder)
-        self.save_task(sales_df, 'cleaned_sales.csv', subfolder)
+        self.save_task(sales_df, 'cleaned_sales', subfolder)
         
 if __name__ == '__main__':
     loaded_data = DataPrep(use_cache=True)
