@@ -5,6 +5,7 @@ from pathlib import Path
 from ruamel.yaml import YAML
 import os
 import string
+from typing import Optional
 
 import shutil
 
@@ -75,13 +76,9 @@ class DataPrep:
 
         
 class TransformSave:
-    def __init__(self, customers_df, sales_df ):
+    def __init__(self):
         self.root_dir = Path(__file__).parent
         self.output_dir = self.root_dir.joinpath('outputs')
-        self.prepare_output_dir()
-        self.perform_part2_tasks(customers_df.copy(), sales_df.copy()) # Using a copy to gurantee no changes in the cleaned data
-        self.perform_part3_tasks(customers_df, sales_df)
-        self.all_dates()
 
     def prepare_output_dir(self):
         if os.path.exists(self.output_dir):
@@ -95,7 +92,19 @@ class TransformSave:
         df.to_csv(self.output_dir.joinpath(subfolder, task_name + '.csv'), index=False)
 
 
-    def perform_part2_tasks(self, customers_df, sales_df, subfolder='part_2'):
+    def perform_part2_tasks(
+        self,
+        customers_df: pd.DataFrame,
+        sales_df: pd.DataFrame,
+        subfolder: Optional[str]='part_2'
+        ):
+        """
+        This Function performs the tasks required for part 2 and when possible part 3. (I would usually write docstrings
+        for all functions but I don't think I will for this exercise)
+        :param customers_df: The cleaned customer data
+        :param sales_df: The cleaned sales data
+        :param subfolder: The default subfolder to save outputs to
+        """
         # Task 1
         number_of_cutomers =  len(customers_df['customer_id'].unique())
         print('There are', number_of_cutomers, 'unique customers')
@@ -105,7 +114,7 @@ class TransformSave:
             subfolder
             )
        
-       # Task 2
+        # Task 2
         sorted_customers = customers_df.sort_values(['age'], ascending=True)
         
         print(sorted_customers)
@@ -158,8 +167,15 @@ class TransformSave:
     def perform_part3_tasks(self, customers_df, sales_df, subfolder='part3'):
         self.save_task(customers_df, 'cleaned_customers', subfolder)
         self.save_task(sales_df, 'cleaned_sales', subfolder)
+    
+    def run(self, customers_df, sales_df):
+        self.prepare_output_dir()
+        self.perform_part2_tasks(customers_df.copy(), sales_df.copy()) # Using a copy to gurantee no changes in the cleaned data
+        self.perform_part3_tasks(customers_df, sales_df)
+        print('Run Complete!')
 
         
 if __name__ == '__main__':
-    loaded_data = DataPrep(use_cache=True)
-    TransformSave(customers_df=loaded_data.customers_df, sales_df=loaded_data.sales_df)
+    loaded_data = DataPrep(use_cache=False)
+    transform_save = TransformSave()
+    transform_save.run(customers_df=loaded_data.customers_df, sales_df=loaded_data.sales_df)
