@@ -159,23 +159,6 @@ class TransformSave:
         self.save_task(customers_df, 'cleaned_customers', subfolder)
         self.save_task(sales_df, 'cleaned_sales', subfolder)
 
-    def all_dates(self):
-        transactions_by_date = pd.read_csv(
-            self.root_dir.joinpath('outputs', 'part3', 'transactions_sorted_by_date.csv')
-        )
-        transactions_by_date['sale_date'] = pd.to_datetime(transactions_by_date['sale_date'])
-        
-        all_dates = pd.DataFrame(
-            {
-                'sale_date': list(
-                    pd.date_range(transactions_by_date['sale_date'].min(), transactions_by_date['sale_date'].max())
-                    )
-            }
-        )
-        all_dates_and_data = all_dates.merge(transactions_by_date, how='left', on='sale_date', validate='one_to_many')
-        all_dates_and_data['sale_amount'] =  all_dates_and_data['sale_amount'].fillna(0)
-        all_dates_and_data = all_dates_and_data.sort_values(['sale_date'], ascending=False)
-        self.save_task(all_dates_and_data, 'convenient_date_format', 'extras')
         
 if __name__ == '__main__':
     loaded_data = DataPrep(use_cache=True)
